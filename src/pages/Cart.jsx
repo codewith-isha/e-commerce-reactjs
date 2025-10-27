@@ -1,12 +1,17 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import EmptyCart from "../assets/Images/emptycart.png"
 import { FaTrashAlt } from 'react-icons/fa'
+import Modal from '../components/Modal'
+import  ChangeAddress from '../components/ChangeAdress'
+import { removeFromCart } from '../redux/cartSlice'
 
 
 const Cart = () => {
   const cart = useSelector(state => state.cart)
   const [address,setAddress] = useState('main street,0012')
+  const [isModelOpen , setIsModelOpen] = useState(false)
+  const dispatch = useDispatch()
   return (
     <div className='container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24'>
       {cart.products.length > 0 ?
@@ -45,7 +50,7 @@ const Cart = () => {
                          <button className='text-xl px-1 border'>+</button>
                       </div>
                       <p>${(product.quantity*product.price).toFixed(2)}</p>
-                      <button className='text-red-500 hover:text-red-700'>
+                      <button className='text-red-500 hover:text-red-700' onClick={()=>dispatch(removeFromCart(product.id))}>
                         <FaTrashAlt/>
                       </button>
                     </div>
@@ -63,7 +68,7 @@ const Cart = () => {
                   <p>Shipping:</p>
                   <p className='ml-2'>Shipping to:{""}</p>
                   <span className='text-xs font-bold'>{address}</span>
-                  <button className='text-blue-500 hover:underline mt-1 ml-2'>change address</button>
+                  <button className='text-blue-500 hover:underline mt-1 ml-2' onClick={()=>setIsModelOpen(true)}>change address</button>
                 </div>
                 <div className='flex justify-between mb-4'>
                   <span>Total Price:</span>
@@ -72,8 +77,13 @@ const Cart = () => {
                 <button className='w-full bg-red-600 text-white py-2 hover:bg-red-800'>Proceed to Pay</button>
               </div>
         </div>
+        <Modal 
+        isModelOpen={isModelOpen}
+        setIsModelOpen={setIsModelOpen}
+        >
+          < ChangeAddress setAddress={setAddress} setIsModelOpen={setIsModelOpen}/>
+        </Modal>
        </div>
-       
        :
        (
         <div className='flex justify-center'>
