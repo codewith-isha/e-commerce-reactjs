@@ -48,8 +48,8 @@ const Home = () => {
           <div className='container mx-auto py-12'>
             <h2 className='text-2xl font-bold mb-6 text-center'>Top Products</h2> 
             <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 cursor-pointer'>
-              {products.products.slice(0,5).map((product)=>(
-                <ProductCard product={product}/>
+              {products.products.slice(0,5).map((product,idx)=>(
+                <ProductCard product={product} key={idx}/>
               ))}
             </div>
           </div>
