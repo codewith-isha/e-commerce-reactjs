@@ -3,8 +3,10 @@ import { Categories, mockData } from '../assets/mockData'
 import Heroimage from '../assets/Images/hero.png'
 import InfoSection from '../components/InfoSection'
 import CategorySection from '../components/CategorySection'
+import ProductCard from '../components/ProductCard'
 import { setProducts } from '../redux/productSlice'
 import { useDispatch , useSelector } from 'react-redux'
+import Shop from './Shop'
 
 
 const Home = () => {
@@ -14,6 +16,7 @@ const Home = () => {
     dispatch(setProducts(mockData))
   },[])
   return (
+    <div>
     <div className='bg-white mt-2 px-3 md:px-16 lg:px-24'>
       <div className='container mx-auto py-4 flex flex-col md:flex-row space-x-2'>
         <div className=' w-full md:w-3/12'>  
@@ -42,15 +45,20 @@ const Home = () => {
           <InfoSection/>
           <CategorySection/>
 
-          <div>
-            <h2>Top Products</h2>
-            <div>
+          <div className='container mx-auto py-12'>
+            <h2 className='text-2xl font-bold mb-6 text-center'>Top Products</h2> 
+            <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 cursor-pointer'>
               {products.products.slice(0,5).map((product)=>(
-                <div>{product.name}</div>
+                <ProductCard product={product}/>
               ))}
             </div>
           </div>
+ 
       </div>
+      <Shop/>
+      </div>
+     
+     
   )
 }
 
