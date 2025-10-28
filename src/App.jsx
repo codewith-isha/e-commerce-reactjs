@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
@@ -41,6 +42,7 @@ const App = () => {
 
     </Routes>
     <Footer/>
+     <Toaster position="top-right" reverseOrder={false} />
     </BrowserRouter>
   )
 }
