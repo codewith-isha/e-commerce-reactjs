@@ -3,6 +3,7 @@ import { FaCarSide, FaQuestion, FaStar } from 'react-icons/fa'
 import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { addToCart } from '../redux/cartSlice'
+import toast from 'react-hot-toast'
 
 const ProductDetails = () => {
   const { id } = useParams()
@@ -27,7 +28,17 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity }))
-    alert('Product added to cart successfully!')
+     toast.success(' Product added successfully!', {
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+      iconTheme: {
+        primary: '#ef4444', 
+        secondary: '#fff',
+      },
+    })
   }
 
   return (
