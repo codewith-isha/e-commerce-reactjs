@@ -4,7 +4,8 @@ import EmptyCart from "../assets/Images/emptycart.png"
 import { FaTrashAlt } from 'react-icons/fa'
 import Modal from '../components/Modal'
 import  ChangeAddress from '../components/ChangeAdress'
-import { removeFromCart } from '../redux/cartSlice'
+import { decreaseQuantity, increaseQuantity, removeFromCart } from '../redux/cartSlice'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 
 const Cart = () => {
@@ -12,6 +13,7 @@ const Cart = () => {
   const [address,setAddress] = useState('main street,0012')
   const [isModelOpen , setIsModelOpen] = useState(false)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   return (
     <div className='container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24'>
       {cart.products.length > 0 ?
@@ -45,9 +47,9 @@ const Cart = () => {
                     <div className='flex space-x-12 items-center'>
                       <p>${product.price}</p>
                       <div className='flex items-center justify-center border'>
-                         <button className='text-xl font-bold px-1.5 border'>-</button>
+                         <button className='text-xl font-bold px-1.5 border' onClick={()=> dispatch(decreaseQuantity(product.id))}>-</button>
                          <p className='text-xl px-2'>{product.quantity}</p>
-                         <button className='text-xl px-1 border'>+</button>
+                         <button className='text-xl px-1 border' onClick={()=>dispatch(increaseQuantity(product.id))}>+</button>
                       </div>
                       <p>${(product.quantity*product.price).toFixed(2)}</p>
                       <button className='text-red-500 hover:text-red-700' onClick={()=>dispatch(removeFromCart(product.id))}>
@@ -74,7 +76,7 @@ const Cart = () => {
                   <span>Total Price:</span>
                   <span>{cart.totalPrice.toFixed(2)}</span>
                 </div>
-                <button className='w-full bg-red-600 text-white py-2 hover:bg-red-800'>Proceed to Pay</button>
+                <button className='w-full bg-red-600 text-white py-2 hover:bg-red-800' onClick={()=>navigate('/checkout')}>Proceed to Pay</button>
               </div>
         </div>
         <Modal 
