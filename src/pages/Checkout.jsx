@@ -3,31 +3,31 @@ import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 
-const Checkout = ({setOrder}) => {
+const Checkout = ({ setOrder }) => {
   const [billingToggle, setBillingToggle] = useState(true);
   const [shippingToggle, setShippingToggle] = useState(false);
   const [paymentToggle, setPaymentToggle] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("cod");
-  const {shippingInfo, setShippingInfo} = useState({
-    address:'',
-    city:'',
-    zip:''
-  })
+  const [shippingInfo, setShippingInfo] = useState({
+    address: "",
+    city: "",
+    zip: "",
+  });
 
-
-  const cart = useSelector((state) => state.cart.products)
-  const navigate = useNavigate()
-  const handleOrder =()=>{
+  const cart = useSelector((state) => state.cart);
+  console.log(cart.totalPrice);
+  const navigate = useNavigate();
+  const handleOrder = () => {
     const newOrder = {
-      products:cart.products,
-      orderNumber:'12345',
-      shippingInfomation :shippingInfo,
-      totalPrice:cart.totalPrice
-    }
-    setOrder(newOrder)
-    navigate('/order-confirmation')
-  }
-  console.log(cart)
+      products: cart.products,
+      orderNumber: "12345",
+      shippingInformation: shippingInfo,
+      totalPrice: cart.totalPrice,
+    };
+    setOrder(newOrder);
+    navigate("/order-confirmation");
+  };
+  // console.log(cart)
   // {cart.products.map((pro)=>{
   //   console.log(pro.image)
   // })}
@@ -100,11 +100,14 @@ const Checkout = ({setOrder}) => {
                   type="text"
                   name="address"
                   placeholder="Enter Address"
-                
                   className="w-full px-3 py-2 border"
-                  onChange={(e)=>setShippingInfo({...shippingInfo,address:e.target.value})}
+                  onChange={(e) =>
+                    setShippingInfo({
+                      ...shippingInfo,
+                      address: e.target.value,
+                    })
+                  }
                 />
-
               </div>
 
               <div>
@@ -114,7 +117,9 @@ const Checkout = ({setOrder}) => {
                   name="city"
                   placeholder="Enter City"
                   className="w-full px-3 py-2 border"
-                   onChange={(e)=>setShippingInfo({...shippingInfo,city:e.target.value})}
+                  onChange={(e) =>
+                    setShippingInfo({ ...shippingInfo, city: e.target.value })
+                  }
                 />
               </div>
 
@@ -125,7 +130,9 @@ const Checkout = ({setOrder}) => {
                   name="zipCode"
                   placeholder="Enter Zip code"
                   className="w-full px-3 py-2 border"
-                   onChange={(e)=>setShippingInfo({...shippingInfo,zip:e.target.value})}
+                  onChange={(e) =>
+                    setShippingInfo({ ...shippingInfo, zip: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -164,66 +171,101 @@ const Checkout = ({setOrder}) => {
                 />
                 <label className="block text-gray-700 ml-2">Debit Card</label>
               </div>
-              {paymentMethod === "dc" &&(
+              {paymentMethod === "dc" && (
                 <div className="bg-gray-100 p-4 rounded-lg mb-4">
-                  <h3 className="text-xl font-semibold mb-4">Debit Card Information</h3>
+                  <h3 className="text-xl font-semibold mb-4">
+                    Debit Card Information
+                  </h3>
                   <div className="mb-4">
-                    <label className="block text-gray-700 font-semibold mb-2">Card Number</label>
-                    <input type="text" placeholder="Card Number" className="border p-2 w-full rounded" />
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Card Number
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Card Number"
+                      className="border p-2 w-full rounded"
+                    />
                   </div>
 
                   <div className="mb-4">
-                    <label className="block text-gray-700 font-semibold mb-2">Card Holder Name</label>
-                    <input type="text"  placeholder="Card holder name" className="border p-2 w-full rounded" />
+                    <label className="block text-gray-700 font-semibold mb-2">
+                      Card Holder Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Card holder name"
+                      className="border p-2 w-full rounded"
+                    />
                   </div>
 
                   <div className="flex justify-between mb-4">
                     <div className="w-1/2 mr-2">
-                      <label className="block text-gray-700 font-semibold mb-2" >Expire Date</label>
-                      <input type="text" placeholder="MM/YY" className=" border p-2 w-full rounded" />
+                      <label className="block text-gray-700 font-semibold mb-2">
+                        Expire Date
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="MM/YY"
+                        className=" border p-2 w-full rounded"
+                      />
                     </div>
                     <div className="w-1/2 ml-2">
-                      <label className="block text-gray-700 font-semibold mb-2">CVV</label>
-                      <input type="text"  placeholder="CVV" className="border p-2 w-full rounded" required/>
+                      <label className="block text-gray-700 font-semibold mb-2">
+                        CVV
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="CVV"
+                        className="border p-2 w-full rounded"
+                        required
+                      />
                     </div>
                   </div>
                 </div>
-                
               )}
             </div>
-          
           </div>
         </div>
 
-
-
         <div className="md:w-1/3 bg-white p-6 rounded-lg shadow-md border">
-        <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-        <div className="space-y-4">
-     {cart.map((product) => (
-  <div key={product.id} className="flex justify-between">
-    <div className="flex items-center">
-    <img src={product.image} alt={product.name} className="w-16 h-16 object-contain rounded" />
-    <div className="ml-4">
-    <h4 className="text-md font-semibold">{product.name}</h4>
-    <p className="text-gray-600">${product.price} × {product.quantity}</p>
-    </div>
-  </div>
-  <div className="text-gray-800">
-     ${product.price*product.quantity}
-  </div>
-  </div>
-))}
- </div>
+          <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+          <div className="space-y-4">
+            {cart.products.map((product) => (
+              <div key={product.id} className="flex justify-between">
+                <div className="flex items-center">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-16 h-16 object-contain rounded"
+                  />
+                  <div className="ml-4">
+                    <h4 className="text-md font-semibold">{product.name}</h4>
+                    <p className="text-gray-600">
+                      ${product.price} × {product.quantity}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-gray-800">
+                  ${product.price * product.quantity}
+                </div>
+              </div>
+            ))}
+          </div>
 
-           <div className="mt-4 border-t pt-4" >
+          <div className="mt-4 border-t pt-4">
             <div className="flex justify-between">
-               <span>Total Price :</span>
-            <span className="font-semibold">${cart?.totalPrice?.toFixed(2)}</span>
+              <span>Total Price :</span>
+              <span className="font-semibold">
+                ${cart?.totalPrice?.toFixed(2)}
+              </span>
             </div>
-           
-           </div>
-              <button className="w-full bg-red-600 text-white py-2 mt-6 hover:bg-red-800" onClick={handleOrder}>Place Order</button>
+          </div>
+          <button
+            className="w-full bg-red-600 text-white py-2 mt-6 hover:bg-red-800"
+            onClick={handleOrder}
+          >
+            Place Order
+          </button>
         </div>
       </div>
     </div>

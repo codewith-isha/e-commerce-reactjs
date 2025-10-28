@@ -4,34 +4,54 @@ import { useDispatch } from 'react-redux'
 import { addToCart } from '../redux/cartSlice'
 import { Link } from 'react-router-dom'
 
-const ProductCard = ({product}) => {
+const ProductCard = ({ product }) => {
   const dispatch = useDispatch()
-  const handleAddtoCart = (e ,product)=>{
+
+  const handleAddtoCart = (e, product) => {
     e.stopPropagation()
     e.preventDefault()
     dispatch(addToCart(product))
-    alert("Product Added Succesfully!")
+    alert('Product Added Successfully!')
   }
+
   return (
-    <Link to={`/product/${product.id}`}>
-    
-    <div className='bg-white p-4 shadow rounded relative border transform transition-transform duration-300 hover:scale-105'>
-      <img src={product.image} className='w-full h-48 object-contain mb-4'/>
-      <h3  className='text-lg font-semibold'>{product.name}</h3>
-      <p className='text-gray-500'>{product.price}</p>
-      <div className='flex items-center mt-2'>
-        <FaStar className="text-yellow-500"/>
-         <FaStar className="text-yellow-500"/>
-          <FaStar className="text-yellow-500"/>
-           <FaStar className="text-yellow-500"/>
+    <Link to={`/product/${product.id}`} className="group">
+      <div className="bg-white p-5 rounded-xl shadow-md border border-gray-100 
+                      transform transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl relative">
+        {/* Product Image */}
+        <div className="w-full h-56 flex items-center justify-center mb-4 overflow-hidden rounded-md bg-gray-50">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="h-full object-contain group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+
+        {/* Product Info */}
+        <h3 className="text-lg font-semibold text-gray-800 truncate">{product.name}</h3>
+        <p className="text-red-600 font-bold mt-1">${product.price}</p>
+
+        {/* Stars */}
+        <div className="flex items-center mt-2 space-x-1 text-yellow-400">
+          {[...Array(4)].map((_, i) => (
+            <FaStar key={i} />
+          ))}
+        </div>
+
+        {/* Add to Cart Button */}
+        <button
+          className="absolute bottom-4 right-4 bg-red-600 text-white text-sm font-medium 
+                     px-3 py-2 rounded-full shadow-md opacity-0 group-hover:opacity-100
+                     transform translate-y-3 group-hover:translate-y-0 transition-all duration-300"
+          onClick={(e) => handleAddtoCart(e, product)}
+        >
+          Add to Cart
+        </button>
+
+        {/* Hover glow */}
+        <div className="absolute inset-0 rounded-xl border-2 border-transparent 
+                        group-hover:border-red-500 transition-all duration-300 pointer-events-none"></div>
       </div>
-      <div className=' absolute bottom-4 right-2 flex items-center justify-center w-8 h-8 bg-red-600 group text-white text-sm rounded-full hover:w-32 hover:bg-red-700 transition-all duration-100' 
-      onClick={(e)=>handleAddtoCart(e,product)}
-      >
-        <span className='group-hover:hidden'>+</span>
-        <span className='hidden group-hover:block '>Add to Cart</span>
-      </div>
-    </div>
     </Link>
   )
 }

@@ -1,51 +1,109 @@
 import React, { useEffect, useState } from 'react'
-import { FaCarSide, FaQuestion } from 'react-icons/fa'
-import { useSelector } from 'react-redux'
+import { FaCarSide, FaQuestion, FaStar } from 'react-icons/fa'
+import { useSelector, useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import { addToCart } from '../redux/cartSlice'
 
 const ProductDetails = () => {
-  const {id} = useParams()
-  const products = useSelector(state => state.product.products)
-  const [product ,setProduct] = useState()
-  useEffect(()=>{
-    const newProduct =  products.find(product =>product.id === parseInt(id))
-    setProduct(newProduct)
-  },[id , products])
+  const { id } = useParams()
+  const products = useSelector((state) => state.product.products)
+  const [product, setProduct] = useState(null)
+  const [quantity, setQuantity] = useState(1)
+  const dispatch = useDispatch()
 
-  if(!product) return <div>Loading....</div>
+  useEffect(() => {
+    const selectedProduct = products.find(
+      (item) => item.id === parseInt(id)
+    )
+    setProduct(selectedProduct)
+  }, [id, products])
+
+  if (!product)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-lg text-gray-600 animate-pulse">Loading product...</p>
+      </div>
+    )
+
+  const handleAddToCart = () => {
+    dispatch(addToCart({ ...product, quantity }))
+    alert('Product added to cart successfully!')
+  }
+
   return (
-    <div className='container mx-auto py-8 px-4 md:px-16 lg:px-24'>
-      <div className='flex flex-col md:flex-row gap-x-16'>
-        <div className='md:w-1/2 py-4 shadow-md md:px-8 h-96 flex justify-center'>
-         <img src={product.image} className='h-full' />
+    <div className="container mx-auto py-12 px-4 md:px-16 lg:px-24 bg-gray-50">
+      <div className="flex flex-col md:flex-row gap-12 bg-white shadow-md rounded-lg p-6 md:p-10">
+        {/* Left: Product Image */}
+        <div className="md:w-1/2 flex justify-center items-center border rounded-lg p-4 bg-gray-100">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="object-contain h-96"
+          />
         </div>
-        <div className='md:w-1/2 p-4 shadow-md md:p-16 flex flex-col items-center gap-y-2'>
-        <h2 className='text-3xl font-semibold mb-2'>{product.name}</h2>
-        <p className='text-xl font-semibold text-gray-800 mb-4'>
-          ${product.price}
+
+        {/* Right: Product Info */}
+        <div className="md:w-1/2 flex flex-col justify-between space-y-6">
+          {/* Title */}
+          <div>
+            <h2 className="text-3xl font-semibold text-gray-900 mb-2">
+              {product.name}
+            </h2>
+            <div className="flex items-center mb-2">
+              {[...Array(4)].map((_, i) => (
+                <FaStar key={i} className="text-yellow-400" />
+              ))}
+              <span className="text-gray-600 text-sm ml-2">(4.5/5)</span>
+            </div>
+            <p className="text-2xl font-bold text-red-600">${product.price}</p>
+          </div>
+
+          {/* Quantity & Add to Cart */}
+          <div className="flex items-center gap-3">
+            <label htmlFor="quantity" className="text-gray-600 font-medium">
+              Qty:
+            </label>
+            <input
+              id="quantity"
+              type="number"
+              min="1"
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              className="border rounded-md w-20 py-1 px-2 focus:ring-2 focus:ring-red-500 outline-none"
+            />
+            <button
+              className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-all"
+              onClick={handleAddToCart}
+            >
+              Add to Cart
+            </button>
+          </div>
+
+          {/* Extra Info */}
+          <div className="flex flex-col space-y-3 text-gray-700">
+            <p className="flex items-center">
+              <FaCarSide className="text-red-600 mr-2" />
+              <span>Fast & Free Delivery</span>
+            </p>
+            <p className="flex items-center">
+              <FaQuestion className="text-red-600 mr-2" />
+              <span>Need help? Contact our support</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Product Description */}
+      <div className="mt-12 bg-white p-6 rounded-lg shadow-sm">
+        <h3 className="text-xl font-bold mb-3 text-gray-800">
+          Product Description
+        </h3>
+        <p className="text-gray-600 leading-relaxed">
+          {product.description ||
+            'This product is made from premium quality materials, providing comfort, durability, and style. Perfect for your daily lifestyle needs.'}
         </p>
-
-        <div className='flex itmes-center mb-4 gap-x-2'>
-          <input type="number" id='quantity' min="1" className='border p-1 w-16'/>
-          <button className='bg-red-600 text-white py-1.5 px-4 hover:bg-red-800' >Add to Cart</button>
-
-        </div>
-        <div className='flex flex-col gap-y-4 mt-4'>
-          <p className='flex items-center'>
-            <FaCarSide className='mr-1'/>Delivery & Return
-          </p>
-           <p className='flex items-center'>
-            <FaQuestion className='mr-1'/>Ask a Question
-          </p>
-        </div>
-        </div>
       </div>
-      <div className='mt-8'>
-        <h3 className='text-xl font-bold mb-2'>Product Description</h3>
-        <p>Product description will goes here.</p>
-      </div>
-      
-      </div>
+    </div>
   )
 }
 

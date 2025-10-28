@@ -10,6 +10,8 @@ import Order from './pages/Order'
 import FilterData from './pages/FilterData'
 
 import ProductDetails from './components/ProductDetails'
+import Contact from './pages/Contact'
+import About from './pages/About'
 
 const App = () => {
   const  [order , setOrder] = useState(null)
@@ -21,6 +23,11 @@ const App = () => {
     <Routes>
       <Route path='/' element={<Home/>}/>
       <Route path='/shop' element={<Shop/>}/>
+      <Route path='/contact' element={<Contact/>}/>
+      <Route path='/about' element={<About/>}/>
+
+
+
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/checkout' element={<Checkout setOrder={setOrder}/>}/>
         <Route path='/order-confirmation' element={<Order order={order}/>}/>

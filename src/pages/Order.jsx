@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Order = ({order}) => {
   const navigate = useNavigate()
-  // console.log(order)
+  console.log(order)
   return (
     <div className='container mx-auto py-8 px-4 md:px-16 lg:px-24'>
       <h2 className='text-2xl font-semibold mb-4'>Thank You for your Order</h2>
@@ -13,9 +13,9 @@ const Order = ({order}) => {
         <p>Order Number:{order?.orderNumber}</p>
         <div className='mt-4'>
           <h2 className='text-md font-semibold mb-2'>Shipping Information</h2>
-          <p>{order?.shippingInfomation?.address}</p>
-          <p>{order?.shippingInfomation?.city}</p>
-          <p>{order?.shippingInfomation?.zip}</p>
+          <p>{order?. shippingInformation?.address}</p>
+          <p>{order?. shippingInformation?.city}</p>
+          <p>{order?. shippingInformation?.zip}</p>
 
         </div>
         <div className='mt-4'>
