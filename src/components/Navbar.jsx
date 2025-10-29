@@ -39,7 +39,7 @@ const Navbar = () => {
         {/* Logo */}
         <div className="text-2xl font-extrabold text-red-600 tracking-wide">
           <Link to="/" className="hover:text-red-700 transition duration-200">
-            e<span className="text-gray-800">Shop</span>
+            Luxe<span className="text-gray-800">Line</span>
           </Link>
         </div>
 

@@ -60,9 +60,9 @@ const Home = () => {
               className="h-full w-full object-cover"
             />
             <div className="absolute inset-0 bg-linear-to-r from-black/40 to-transparent flex flex-col justify-center px-8">
-              <p className="text-gray-200 mb-2 font-medium">Isha | e-Shop</p>
+              <p className="text-gray-200 mb-2 font-medium"> LuxeLine</p>
               <h2 className="text-3xl md:text-4xl font-extrabold text-white">
-                WELCOME TO E-SHOP
+                WELCOME TO LUXELINE
               </h2>
               <p className="text-lg md:text-xl mt-2 font-semibold text-gray-100">
                 MILLIONS+ PRODUCTS
