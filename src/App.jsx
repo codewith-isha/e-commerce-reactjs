@@ -42,7 +42,7 @@ const App = () => {
 
     </Routes>
     <Footer/>
-     <Toaster position="top-right" reverseOrder={false} />
+     <Toaster position="top-center" reverseOrder={false} />
     </BrowserRouter>
   )
 }

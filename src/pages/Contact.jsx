@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import toast from 'react-hot-toast'
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -19,7 +19,17 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
-    alert("Thank you for contacting us! We'll get back to you soon.");
+    toast.success(' Thank you for Contacting Us !! We will get to you soon.', {
+      style: {
+        borderRadius: '10px',
+        background: '#333',
+        color: '#fff',
+      },
+      iconTheme: {
+        primary: '#00FF41', 
+        secondary: '#fff',
+      },
+    })
     setFormData({ name: "", email: "", subject: "", message: "" });
   };
 
