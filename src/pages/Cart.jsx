@@ -51,13 +51,13 @@ const Cart = () => {
                     {/* Product Info */}
                     <div className="flex items-center space-x-4 mb-4 md:mb-0">
                       <img
-                        src={product.image}
-                        alt={product.name}
+                         src={product.image}
+                        alt={product.title}
                         className="w-20 h-20 object-contain rounded-md border"
                       />
                       <div>
                         <h3 className="text-lg font-semibold text-gray-800">
-                          {product.name}
+                          {product.title}
                         </h3>
                         <p className="text-gray-500 text-sm">
                           Product ID: {product.id}

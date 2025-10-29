@@ -18,11 +18,11 @@ const cartSlice = createSlice({
       }else{
          state.products.push({
           id:newItem.id,
-          name:newItem.name,
+          name:newItem.title,
           price:newItem.price,
           quantity:1,
           totalPrice:newItem.price,
-          image:newItem.image
+          image:newItem.thumbnail
          })
       }
       state.totalPrice +=newItem.price;
@@ -34,7 +34,7 @@ const cartSlice = createSlice({
       if(findItem){
         state.totalPrice -= findItem.totalPrice
         state.totalQuantity -= findItem.quantity
-        state.products = state.products.filter(item => item.id !== id)
+        state.products = state.products.filter((item )=> item.id !== id)
 
       }
     },

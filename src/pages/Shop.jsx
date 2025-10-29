@@ -1,10 +1,37 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useSelector , useDispatch} from 'react-redux'
 import ProductCard from '../components/ProductCard'
+import { setProducts } from '../redux/productSlice'
 
 const Shop = () => {
+  const dispatch = useDispatch()
   const products = useSelector((state) => state.product)
+  const [loading , setLoading] = useState(false)
 
+  useEffect(()=>{
+    const fetchProducts = async () =>{
+      if(products.products.length === 0){
+        setLoading(true);
+        try {
+          const response = await fetch('https://dummyjson.com/products')
+          const data = await response.json();
+          dispatch(setProducts(data.products))
+        } catch (error) {
+          console.log(`Error fetching products : ${error}`)
+        }finally{
+          setLoading(false)
+        }
+      }
+    };
+    fetchProducts()
+  },[dispatch,products.products.length])
+  if(loading){
+    return(
+      <div className='text-center py-20 text-gray-600 text-lg'>
+        Loading Products....
+      </div>
+    )
+  }
   return (
     <div className="bg-gray-50 min-h-screen py-12 px-4 md:px-16 lg:px-24">
       {/* Title Section */}
@@ -25,13 +52,15 @@ const Shop = () => {
       </div>
 
       {/* Empty State */}
-      {products.products.length === 0 && (
+       {products.products.length === 0 && !loading && (
         <div className="text-center py-20">
-          <p className="text-gray-500 text-lg">No products available at the moment.</p>
+          <p className="text-gray-500 text-lg">
+            No products available at the moment.
+          </p>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default Shop

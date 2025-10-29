@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Categories, mockData } from "../assets/mockData";
+import { Categories } from "../assets/mockData";
 import Heroimage from "../assets/Images/hero.png";
 import InfoSection from "../components/InfoSection";
 import CategorySection from "../components/CategorySection";
@@ -11,11 +11,23 @@ import Shop from "./Shop";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.product);
+  const products = useSelector((state) => state.product.products);
+  
+  useEffect(()=>{
+    const fetchProducts = async () =>{
+      try {
+        const res = await fetch("https://dummyjson.com/products?limit=50")
+        const data = await res.json();
+        dispatch(setProducts(data.products))
+        
+      } catch (error) {
+        console.log(`Error fetching Products : ${error}`)
+      }
+    }
+    fetchProducts()
+  },[dispatch])
 
-  useEffect(() => {
-    dispatch(setProducts(mockData));
-  }, [dispatch]);
+ 
 
   return (
     <div className="bg-white">
@@ -76,16 +88,28 @@ const Home = () => {
       </div>
 
       {/* Top Products */}
-      <div className="container mx-auto px-4 md:px-16 lg:px-24 py-16">
-        <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">
-          🔥 Top Products
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {products.products.slice(0, 5).map((product, idx) => (
-            <ProductCard product={product} key={idx} />
-          ))}
-        </div>
+     {/* Top Products Section */}
+<section className="bg-white py-12">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">🔥 Top Products</h2>
+
+    {products.length === 0 ? (
+      <div className="flex items-center justify-center py-20">
+        <p className="text-center text-gray-500">Loading products...</p>
       </div>
+    ) : (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 sm:gap-8 auto-rows-fr">
+        {products.slice(0, 5).map((product) => (
+          /* ensure ProductCard takes full cell height */
+          <div key={product.id} className="w-full h-full">
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
 
       {/* Shop Section */}
       <div className="bg-gray-50 py-10">

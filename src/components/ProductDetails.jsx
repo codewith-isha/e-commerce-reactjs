@@ -7,18 +7,29 @@ import toast from 'react-hot-toast'
 
 const ProductDetails = () => {
   const { id } = useParams()
-  const products = useSelector((state) => state.product.products)
   const [product, setProduct] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    const selectedProduct = products.find(
-      (item) => item.id === parseInt(id)
-    )
-    setProduct(selectedProduct)
-  }, [id, products])
-
+  
+  const products = useSelector((state) => state.product.products)
+  // useEffect(() => {
+  //   const selectedProduct = products.find(
+  //     (item) => item.id === parseInt(id)
+  //   )
+  //   setProduct(selectedProduct)
+  // }, [id, products])
+  useEffect(()=>{
+    const fetchProduct = async ()=>{
+      try{
+        const res = await fetch(`https://dummyjson.com/products/${id}`)
+        const data = await res.json()
+        setProduct(data)
+      }catch(error){
+        console.log(`error fetching product: ${error}`)
+      }
+    }
+    fetchProduct()
+  },[id])
   if (!product)
     return (
       <div className="flex justify-center items-center h-screen">
@@ -47,8 +58,8 @@ const ProductDetails = () => {
         {/* Left: Product Image */}
         <div className="md:w-1/2 flex justify-center items-center border rounded-lg p-4 bg-gray-100">
           <img
-            src={product.image}
-            alt={product.name}
+            src={product.thumbnail}
+            alt={product.title}
             className="object-contain h-96"
           />
         </div>
@@ -58,13 +69,14 @@ const ProductDetails = () => {
           {/* Title */}
           <div>
             <h2 className="text-3xl font-semibold text-gray-900 mb-2">
-              {product.name}
+              {product.title}
             </h2>
             <div className="flex items-center mb-2">
-              {[...Array(4)].map((_, i) => (
+              {[...Array(Math.round(product.rating || 4))].map((_, i) => (
                 <FaStar key={i} className="text-yellow-400" />
               ))}
-              <span className="text-gray-600 text-sm ml-2">(4.5/5)</span>
+              <span className="text-gray-600 text-sm ml-2">({product.rating?.toFixed(1)}/5)
+</span>
             </div>
             <p className="text-2xl font-bold text-red-600">${product.price}</p>
           </div>

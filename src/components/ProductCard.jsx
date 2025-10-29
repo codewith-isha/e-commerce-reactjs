@@ -3,7 +3,6 @@ import { FaStar } from 'react-icons/fa'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../redux/cartSlice'
 import { Link } from 'react-router-dom'
-
 import toast from 'react-hot-toast'
 
 const ProductCard = ({ product }) => {
@@ -33,14 +32,14 @@ const ProductCard = ({ product }) => {
         {/* Product Image */}
         <div className="w-full h-56 flex items-center justify-center mb-4 overflow-hidden rounded-md bg-gray-50">
           <img
-            src={product.image}
-            alt={product.name}
+            src={product.thumbnail}
+            alt={product.title}
             className="h-full object-contain group-hover:scale-105 transition-transform duration-300"
           />
         </div>
 
         {/* Product Info */}
-        <h3 className="text-lg font-semibold text-gray-800 truncate">{product.name}</h3>
+        <h3 className="text-lg font-semibold text-gray-800 truncate">{product.title}</h3>
         <p className="text-red-600 font-bold mt-1">${product.price}</p>
 
         {/* Stars */}
