@@ -10,14 +10,7 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const dispatch = useDispatch()
-  
   const products = useSelector((state) => state.product.products)
-  // useEffect(() => {
-  //   const selectedProduct = products.find(
-  //     (item) => item.id === parseInt(id)
-  //   )
-  //   setProduct(selectedProduct)
-  // }, [id, products])
   useEffect(()=>{
     const fetchProduct = async ()=>{
       try{
