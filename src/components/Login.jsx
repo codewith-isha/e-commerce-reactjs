@@ -1,5 +1,4 @@
 import React from 'react'
-
 const Login = ({ openSignUp }) => {
   return (
     <div className="w-full max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
@@ -7,7 +6,6 @@ const Login = ({ openSignUp }) => {
       <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">
         Login
       </h2>
-
       {/* Form */}
       <form className="space-y-5">
         {/* Email */}
@@ -19,7 +17,6 @@ const Login = ({ openSignUp }) => {
             placeholder="Enter your email"
           />
         </div>
-
         {/* Password */}
         <div>
           <label className="block text-gray-700 font-medium mb-1">Password</label>
@@ -29,7 +26,6 @@ const Login = ({ openSignUp }) => {
             placeholder="Enter your password"
           />
         </div>
-
         {/* Remember Me + Forgot Password */}
         <div className="flex items-center justify-between text-sm">
           <label className="flex items-center">
@@ -40,7 +36,6 @@ const Login = ({ openSignUp }) => {
             Forgot Password?
           </a>
         </div>
-
         {/* Submit Button */}
         <button
           type="submit"
@@ -49,14 +44,12 @@ const Login = ({ openSignUp }) => {
           Login
         </button>
       </form>
-
       {/* Divider */}
       <div className="flex items-center justify-center my-4">
         <div className="border-t border-gray-300 grow"></div>
         <span className="px-3 text-gray-500 text-sm">OR</span>
         <div className="border-t border-gray-300 grow"></div>
       </div>
-
       {/* Sign up link */}
       <div className="text-center text-gray-700">
         Don’t have an account?{' '}
